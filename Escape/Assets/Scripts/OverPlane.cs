@@ -12,7 +12,7 @@ public class OverPlane : MonoBehaviour
             gameOverPanel.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            FindObjectOfType<ThirdPersonController>().enabled = false;
+            FindFirstObjectByType<ThirdPersonController>().enabled = false;
         }
     }
 }

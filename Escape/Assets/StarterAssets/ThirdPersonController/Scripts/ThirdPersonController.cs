@@ -278,8 +278,10 @@ namespace StarterAssets
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }*/
             // ------------------ [원신 스타일 카메라/회전 로직 시작] ------------------
+            AudioManager audioManager = FindAnyObjectByType<AudioManager>();
             if (_input.move != Vector2.zero)
             {
+
                 // 1. 카메라가 바라보는 Y축 회전값(수평 방향)을 가져옵니다.
                 float cameraRotationY = _mainCamera.transform.eulerAngles.y;
 
@@ -295,6 +297,16 @@ namespace StarterAssets
 
                 // 캐릭터 몸 회전 적용 (카메라는 LateUpdate의 CameraRotation에서 마우스로만 독립 제어됨)
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+
+                // 달리기 소리는 sprint일 때만
+                if (Grounded && _input.sprint)
+                    audioManager.PlayRunSound(audioManager.Run);
+                else
+                    audioManager.StopRunSound();
+            }
+            else
+            {
+                audioManager.StopRunSound(); // 멈추거나 공중이면 소리 끄기
             }
             // ------------------ [원신 스타일 카메라/회전 로직 끝] ------------------
 
@@ -311,6 +323,7 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }
+   
 
         /*private void JumpAndGravity()
         {
@@ -469,8 +482,9 @@ namespace StarterAssets
                 }
 
                 _jumpCount++;
-
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                FindAnyObjectByType<AudioManager>().PlaySFX(FindAnyObjectByType<AudioManager>().Jump);
 
                 if (_hasAnimator)
                 {

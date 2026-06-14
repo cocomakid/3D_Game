@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour
             Cursor.visible = true;
 
             // 캐릭터 움직임 정지
-            FindObjectOfType<ThirdPersonController>().enabled = false;
+            FindFirstObjectByType<ThirdPersonController>().enabled = false;
         }
 
         int minutes = Mathf.FloorToInt(remainingTime / 60);
